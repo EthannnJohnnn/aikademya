@@ -14,3 +14,19 @@ Types: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`
 Examples:
 - `feat(auth): implement login form`
 - `docs(readme): add setup steps`
+
+## Pull Request Workflow
+1. Pick a ClickUp task that has an owner and acceptance criteria.
+2. Make sure a GitHub issue exists and is linked to the card.
+3. Branch from an up-to-date `main`.
+4. Commit small and often, then push your branch.
+5. Open a PR that references the issue (`Closes #N`).
+6. Request at least one peer reviewer (not yourself).
+7. Address review comments, then merge after approval.
+8. Move the ClickUp card to Done only after review and verification.
+
+## Review Checklist
+- [ ] Meets the acceptance criteria
+- [ ] App runs without errors
+- [ ] No secrets or `.env` files committed
+- [ ] Code is readable and consistent
