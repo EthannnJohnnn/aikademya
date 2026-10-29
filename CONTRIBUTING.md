@@ -30,3 +30,11 @@ Examples:
 - [ ] App runs without errors
 - [ ] No secrets or `.env` files committed
 - [ ] Code is readable and consistent
+
+## Task Status Rules
+Backlog → To Do → In Progress → For Review → Testing → Done
+- No **In Progress** without an owner and acceptance criteria.
+- No **Done** without review and verification evidence.
+
+## Security
+Never commit real secrets. Keep them in a local `.env` and update `.env.example` with placeholders only.
