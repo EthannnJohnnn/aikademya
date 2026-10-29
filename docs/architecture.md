@@ -22,3 +22,15 @@ aikademya/
 ├── CONTRIBUTING.md
 └── .env.example
 ```
+
+
+## Modules (Epics)
+1. Authentication (AUTH) – login and registration
+2. Diagnostic (DIAG) – diagnostic questionnaire
+3. (Add remaining epics from the proposal)
+
+## Data Flow
+User → React UI → Service/API layer → Database/Storage
+
+## Workflow
+Feature branch → Pull Request → Peer review → Merge to `main`
