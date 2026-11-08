@@ -8,6 +8,7 @@ public class Scenario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "scenario_id")
     private Long id;
 
     @ManyToOne(optional = false)
