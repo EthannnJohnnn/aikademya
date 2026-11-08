@@ -8,21 +8,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
+import com.csit321g3.tres.repository.PathwayModuleRepository;
+
 
 @Service
 public class LearningModuleService {
 
     private final LearningModuleRepository repository;
     private final LessonRepository lessonRepository;
+    private final PathwayModuleRepository pathwayModuleRepository;
     private final ModuleProgressRepository moduleProgressRepository;
 
     public LearningModuleService(LearningModuleRepository repository,
-                                 LessonRepository lessonRepository,
-                                 ModuleProgressRepository moduleProgressRepository) {
-        this.repository = repository;
-        this.lessonRepository = lessonRepository;
-        this.moduleProgressRepository = moduleProgressRepository;
-    }
+                             LessonRepository lessonRepository,
+                             ModuleProgressRepository moduleProgressRepository,
+                             PathwayModuleRepository pathwayModuleRepository) {
+    this.repository = repository;
+    this.lessonRepository = lessonRepository;
+    this.moduleProgressRepository = moduleProgressRepository;
+    this.pathwayModuleRepository = pathwayModuleRepository;
+}
 
 
     public List<LearningModule> getAll() { return repository.findAll(); }
@@ -53,6 +58,10 @@ public class LearningModuleService {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Delete this module's progress records first");
         }
+        if (pathwayModuleRepository.existsByModule_Id(id)) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT,
+            "Remove this module from its pathways first");
+}
         repository.delete(module);
     }
 }

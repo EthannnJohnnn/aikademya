@@ -8,6 +8,8 @@ import com.csit321g3.tres.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.csit321g3.tres.repository.PathwayModuleRepository;
+
 
 import java.util.List;
 
@@ -16,11 +18,15 @@ public class LearningPathwayService {
 
     private final LearningPathwayRepository repository;
     private final UserRepository userRepository;
+    private final PathwayModuleRepository pathwayModuleRepository;
 
-    public LearningPathwayService(LearningPathwayRepository repository, UserRepository userRepository) {
-        this.repository = repository;
-        this.userRepository = userRepository;
-    }
+    public LearningPathwayService(LearningPathwayRepository repository,
+                              UserRepository userRepository,
+                              PathwayModuleRepository pathwayModuleRepository) {
+    this.repository = repository;
+    this.userRepository = userRepository;
+    this.pathwayModuleRepository = pathwayModuleRepository;
+}
 
     public List<LearningPathway> findAll() {
         return repository.findAll();
@@ -43,9 +49,14 @@ public class LearningPathwayService {
         return repository.save(pathway);
     }
 
-    public void delete(Integer id) {
-        repository.delete(findById(id));
+public void delete(Integer id) {
+    LearningPathway pathway = findById(id);
+    if (pathwayModuleRepository.existsByPathway_PathwayId(id)) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT,
+                "Delete this pathway's modules first");
     }
+    repository.delete(pathway);
+}
 
 private void apply(LearningPathway pathway, LearningPathwayRequest request) {
     User user = userRepository.findById(request.userId()).orElseThrow(() ->
