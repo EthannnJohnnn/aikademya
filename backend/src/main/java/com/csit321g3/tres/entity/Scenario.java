@@ -10,12 +10,12 @@ public class Scenario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "activity_id", nullable = false)
-    private Activity activity;
+@   ManyToOne(optional = false)
+@   JoinColumn(name = "lesson_id", nullable = false)
+    private Lesson lesson;
 
     @Column(nullable = false, length = 2000)
-    private String question;
+    private String situation;
 
     @Column(length = 2000)
     private String options;
@@ -24,10 +24,10 @@ public class Scenario {
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public Activity getActivity() { return activity; }
-    public void setActivity(Activity activity) { this.activity = activity; }
-    public String getQuestion() { return question; }
-    public void setQuestion(String question) { this.question = question; }
+    public Lesson getLesson() { return lesson; }
+    public void setLesson(Lesson lesson) { this.lesson = lesson; }
+    public String getSituation() { return situation; }
+    public void setSituation(String situation) { this.situation = situation; }
     public String getOptions() { return options; }
     public void setOptions(String options) { this.options = options; }
 }

@@ -2,8 +2,9 @@ package com.csit321g3.tres.service;
 
 import com.csit321g3.tres.dto.LessonRequest;
 import com.csit321g3.tres.entity.Lesson;
-import com.csit321g3.tres.repository.ActivityRepository;
 import com.csit321g3.tres.repository.LessonRepository;
+import com.csit321g3.tres.repository.ScenarioRepository;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,15 +15,15 @@ public class LessonService {
 
     private final LessonRepository repository;
     private final LearningModuleService moduleService;
-    private final ActivityRepository activityRepository;
+    private final ScenarioRepository scenarioRepository;
 
 
     public LessonService(LessonRepository repository,
                      LearningModuleService moduleService,
-                     ActivityRepository activityRepository) {
+                     ScenarioRepository scenarioRepository) {
     this.repository = repository;
     this.moduleService = moduleService;
-    this.activityRepository = activityRepository;
+    this.scenarioRepository = scenarioRepository;
 }
 
 
@@ -46,13 +47,13 @@ public class LessonService {
     }
 
     public void delete(Long id) {
-    Lesson lesson = getById(id);
-    if (activityRepository.existsByLessonId(id)) {
-        throw new ResponseStatusException(HttpStatus.CONFLICT,
-                "Delete this lesson's activities first");
+        Lesson lesson = getById(id);
+        if (scenarioRepository.existsByLessonId(id)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Delete this lesson's scenarios first");
+        }
+        repository.delete(lesson);
     }
-    repository.delete(lesson);
-}
 
     private void apply(Lesson lesson, LessonRequest req) {
         lesson.setModule(moduleService.getById(req.moduleId())); // 404 if module doesn't exist

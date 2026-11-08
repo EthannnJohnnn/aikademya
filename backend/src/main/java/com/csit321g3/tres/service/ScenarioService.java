@@ -13,11 +13,11 @@ import java.util.List;
 public class ScenarioService {
 
     private final ScenarioRepository repository;
-    private final ActivityService activityService;
+    private final LessonService lessonService;
 
-    public ScenarioService(ScenarioRepository repository, ActivityService activityService) {
+    public ScenarioService(ScenarioRepository repository, LessonService lessonService) {
         this.repository = repository;
-        this.activityService = activityService;
+        this.lessonService = lessonService;
     }
 
     public List<Scenario> getAll() {
@@ -46,8 +46,8 @@ public class ScenarioService {
     }
 
     private void apply(Scenario scenario, ScenarioRequest req) {
-        scenario.setActivity(activityService.getById(req.activityId())); // 404 if activity doesn't exist
-        scenario.setQuestion(req.question());
+        scenario.setLesson(lessonService.getById(req.lessonId())); // 404 if lesson doesn't exist
+        scenario.setSituation(req.situation());
         scenario.setOptions(req.options());
     }
 }
