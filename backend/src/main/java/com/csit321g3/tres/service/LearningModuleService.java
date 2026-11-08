@@ -4,7 +4,6 @@ import com.csit321g3.tres.entity.LearningModule;
 import com.csit321g3.tres.repository.LearningModuleRepository;
 import com.csit321g3.tres.repository.LessonRepository;
 import com.csit321g3.tres.repository.ModuleProgressRepository;
-import com.csit321g3.tres.repository.ModuleProgressRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
