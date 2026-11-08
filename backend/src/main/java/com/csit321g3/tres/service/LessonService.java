@@ -58,6 +58,5 @@ public class LessonService {
     private void apply(Lesson lesson, LessonRequest req) {
         lesson.setModule(moduleService.getById(req.moduleId())); // 404 if module doesn't exist
         lesson.setTitle(req.title());
-        lesson.setContent(req.content());
     }
 }

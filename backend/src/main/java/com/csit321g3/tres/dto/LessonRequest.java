@@ -5,6 +5,5 @@ import jakarta.validation.constraints.NotNull;
 
 public record LessonRequest(
         @NotNull Long moduleId,
-        @NotBlank String title,
-        String content) {
+        @NotBlank String title) {
 }

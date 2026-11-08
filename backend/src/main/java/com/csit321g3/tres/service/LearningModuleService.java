@@ -38,8 +38,6 @@ public class LearningModuleService {
     public LearningModule update(Long id, LearningModule input) {
         LearningModule existing = getById(id);
         existing.setTitle(input.getTitle());
-        existing.setCompetency(input.getCompetency());
-        existing.setDescription(input.getDescription());
         return repository.save(existing);
     }
 

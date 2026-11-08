@@ -17,9 +17,6 @@ public class Lesson {
     @Column(nullable = false)
     private String title;
 
-    @Column(length = 5000)
-    private String content;
-
     public Lesson() {}
 
     public Long getId() { return id; }
@@ -28,6 +25,4 @@ public class Lesson {
     public void setModule(LearningModule module) { this.module = module; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
 }

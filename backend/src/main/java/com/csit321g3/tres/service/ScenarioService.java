@@ -48,6 +48,5 @@ public class ScenarioService {
     private void apply(Scenario scenario, ScenarioRequest req) {
         scenario.setLesson(lessonService.getById(req.lessonId())); // 404 if lesson doesn't exist
         scenario.setSituation(req.situation());
-        scenario.setOptions(req.options());
     }
 }

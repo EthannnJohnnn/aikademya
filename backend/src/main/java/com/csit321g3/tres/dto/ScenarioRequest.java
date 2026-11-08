@@ -5,6 +5,5 @@ import jakarta.validation.constraints.NotNull;
 
 public record ScenarioRequest(
         @NotNull Long lessonId,
-        @NotBlank String situation,
-        String options) {
+        @NotBlank String situation) {
 }
