@@ -9,6 +9,7 @@ public class LearningModule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "module_id")
     private Long id;
 
     @NotBlank
