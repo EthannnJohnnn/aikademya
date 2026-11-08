@@ -3,7 +3,8 @@ package com.csit321g3.tres.service;
 import com.csit321g3.tres.entity.LearningModule;
 import com.csit321g3.tres.repository.LearningModuleRepository;
 import com.csit321g3.tres.repository.LessonRepository;
-
+import com.csit321g3.tres.repository.ModuleProgressRepository;
+import com.csit321g3.tres.repository.ModuleProgressRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,13 +15,15 @@ public class LearningModuleService {
 
     private final LearningModuleRepository repository;
     private final LessonRepository lessonRepository;
-
+    private final ModuleProgressRepository moduleProgressRepository;
 
     public LearningModuleService(LearningModuleRepository repository,
-                             LessonRepository lessonRepository) {
-    this.repository = repository;
-    this.lessonRepository = lessonRepository;
-}
+                                 LessonRepository lessonRepository,
+                                 ModuleProgressRepository moduleProgressRepository) {
+        this.repository = repository;
+        this.lessonRepository = lessonRepository;
+        this.moduleProgressRepository = moduleProgressRepository;
+    }
 
 
     public List<LearningModule> getAll() { return repository.findAll(); }
@@ -41,12 +44,16 @@ public class LearningModuleService {
         return repository.save(existing);
     }
 
-public void delete(Long id) {
-    LearningModule module = getById(id);
-    if (lessonRepository.existsByModuleId(id)) {
-        throw new ResponseStatusException(HttpStatus.CONFLICT,
-                "Delete this module's lessons first");
+    public void delete(Long id) {
+        LearningModule module = getById(id);
+        if (lessonRepository.existsByModuleId(id)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Delete this module's lessons first");
+        }
+        if (moduleProgressRepository.existsByModuleId(id)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Delete this module's progress records first");
+        }
+        repository.delete(module);
     }
-    repository.delete(module);
-}
 }
