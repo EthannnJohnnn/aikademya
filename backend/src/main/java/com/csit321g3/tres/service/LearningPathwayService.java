@@ -28,7 +28,7 @@ public class LearningPathwayService {
 
     public LearningPathway findById(Integer id) {
         return repository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Certificate not found"));
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Learning pathway not found"));
     }
 
     public LearningPathway create(LearningPathwayRequest request) {
