@@ -154,3 +154,7 @@ backend/data/
 
 # Java
 *.class
+
+# Postman local workspace files
+.postman/
+postman/
