@@ -147,3 +147,10 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Spring Boot / Maven
+backend/target/
+backend/data/
+
+# Java
+*.class
