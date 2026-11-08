@@ -2,6 +2,8 @@ package com.csit321g3.tres.service;
 
 import com.csit321g3.tres.entity.LearningModule;
 import com.csit321g3.tres.repository.LearningModuleRepository;
+import com.csit321g3.tres.repository.LessonRepository;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,10 +13,15 @@ import java.util.List;
 public class LearningModuleService {
 
     private final LearningModuleRepository repository;
+    private final LessonRepository lessonRepository;
 
-    public LearningModuleService(LearningModuleRepository repository) {
-        this.repository = repository;
-    }
+
+    public LearningModuleService(LearningModuleRepository repository,
+                             LessonRepository lessonRepository) {
+    this.repository = repository;
+    this.lessonRepository = lessonRepository;
+}
+
 
     public List<LearningModule> getAll() { return repository.findAll(); }
 
@@ -36,7 +43,12 @@ public class LearningModuleService {
         return repository.save(existing);
     }
 
-    public void delete(Long id) {
-        repository.delete(getById(id));
+public void delete(Long id) {
+    LearningModule module = getById(id);
+    if (lessonRepository.existsByModuleId(id)) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT,
+                "Delete this module's lessons first");
     }
+    repository.delete(module);
+}
 }
