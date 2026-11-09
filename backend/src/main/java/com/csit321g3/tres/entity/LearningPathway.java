@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "learning_pathways")
 public class LearningPathway {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pathway_id")
@@ -15,10 +14,16 @@ public class LearningPathway {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "result_id", nullable = false)
+    private DiagnosticResult result;
+
     public LearningPathway() {}
 
     public Integer getPathwayId() { return pathwayId; }
     public void setPathwayId(Integer pathwayId) { this.pathwayId = pathwayId; }
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
+    public DiagnosticResult getResult() { return result; }
+    public void setResult(DiagnosticResult result) { this.result = result; }
 }
