@@ -33,6 +33,46 @@ class DiagnosticBackendCrudTest {
     }
 
     @Test
+    void competencyScoresCrudAndDeletionGuards() throws Exception {
+        int competency = create("/api/competencies", "{\"name\":\" AI Safety \"}", "competencyId");
+        int otherCompetency = create("/api/competencies", "{\"name\":\"AI Ethics\"}", "competencyId");
+        int assessment = create("/api/assessments", "{\"title\":\"Competency assessment\"}", "assessmentId");
+        int user = create("/api/users", "{\"email\":\"competency-test@example.com\"}", "userId");
+        int attempt = create("/api/assessment-attempts", "{\"userId\":" + user + ",\"assessmentId\":" + assessment + "}", "attemptId");
+        int result = create("/api/diagnostic-results", "{\"attemptId\":" + attempt + ",\"totalScore\":85}", "resultId");
+        int score = create("/api/competency-scores", "{\"resultId\":" + result + ",\"competencyId\":" + competency + "}", "scoreId");
+
+        mvc.perform(get("/api/competency-scores/" + score)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.resultId").value(result))
+                .andExpect(jsonPath("$.competencyId").value(competency));
+        mvc.perform(get("/api/competency-scores")).andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.scoreId == " + score + ")]").isNotEmpty());
+        mvc.perform(delete("/api/competencies/" + competency)).andExpect(status().isConflict());
+        mvc.perform(delete("/api/diagnostic-results/" + result)).andExpect(status().isConflict());
+        mvc.perform(put("/api/competency-scores/" + score).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"resultId\":" + result + ",\"competencyId\":" + otherCompetency + "}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.competencyId").value(otherCompetency));
+        mvc.perform(delete("/api/competencies/" + competency)).andExpect(status().isNoContent());
+
+        mvc.perform(post("/api/competency-scores").contentType(MediaType.APPLICATION_JSON)
+                .content("{}" )).andExpect(status().isBadRequest());
+        mvc.perform(post("/api/competency-scores").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"resultId\":999999,\"competencyId\":" + otherCompetency + "}"))
+                .andExpect(status().isNotFound());
+        mvc.perform(post("/api/competency-scores").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"resultId\":" + result + ",\"competencyId\":999999}"))
+                .andExpect(status().isNotFound());
+        mvc.perform(delete("/api/competency-scores/" + score)).andExpect(status().isNoContent());
+        mvc.perform(get("/api/competency-scores/" + score)).andExpect(status().isNotFound());
+        mvc.perform(delete("/api/diagnostic-results/" + result)).andExpect(status().isNoContent());
+
+        int question = create("/api/questions", "{\"assessmentId\":" + assessment + ",\"competencyId\":" + otherCompetency + "}", "questionId");
+        mvc.perform(delete("/api/competencies/" + otherCompetency)).andExpect(status().isConflict());
+        mvc.perform(delete("/api/questions/" + question)).andExpect(status().isNoContent());
+        mvc.perform(delete("/api/competencies/" + otherCompetency)).andExpect(status().isNoContent());
+    }
+
+    @Test
     void diagnosticChainAndPathwayCrud() throws Exception {
         int assessment = create("/api/assessments", "{\"title\":\"AI Literacy\"}", "assessmentId");
         int question = create("/api/questions", "{\"assessmentId\":" + assessment + ",\"competencyId\":1}", "questionId");

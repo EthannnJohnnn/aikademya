@@ -5,6 +5,7 @@ import com.csit321g3.tres.entity.*;
 import com.csit321g3.tres.repository.DiagnosticResultRepository;
 import com.csit321g3.tres.repository.AssessmentAttemptRepository;
 import com.csit321g3.tres.repository.LearningPathwayRepository;
+import com.csit321g3.tres.repository.CompetencyScoreRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,11 +16,13 @@ public class DiagnosticResultService {
     private final DiagnosticResultRepository repository;
     private final AssessmentAttemptRepository attemptRepository;
     private final LearningPathwayRepository pathwayRepository;
+    private final CompetencyScoreRepository competencyScoreRepository;
 
-    public DiagnosticResultService(DiagnosticResultRepository repository, AssessmentAttemptRepository attemptRepository, LearningPathwayRepository pathwayRepository) {
+    public DiagnosticResultService(DiagnosticResultRepository repository, AssessmentAttemptRepository attemptRepository, LearningPathwayRepository pathwayRepository, CompetencyScoreRepository competencyScoreRepository) {
         this.repository = repository;
         this.attemptRepository = attemptRepository;
         this.pathwayRepository = pathwayRepository;
+        this.competencyScoreRepository = competencyScoreRepository;
     }
 
     public List<DiagnosticResult> findAll() { return repository.findAll(); }
@@ -45,6 +48,12 @@ public class DiagnosticResultService {
         DiagnosticResult entity = findById(id);
         if (pathwayRepository.existsByResult_ResultId(id)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Diagnostic result is used by a learning pathway");
+        }
+        if (competencyScoreRepository.existsByResult_ResultId(id)) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "Diagnostic result has competency scores"
+            );
         }
         repository.delete(entity);
     }
