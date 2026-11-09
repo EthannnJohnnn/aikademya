@@ -1,0 +1,102 @@
+:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #172033;
+  background: #f6f8fc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: #3157cc;
+  text-decoration: none;
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-header {
+  padding: 20px 6%;
+  background: white;
+  border-bottom: 1px solid #e6eaf2;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.auth-main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 32px;
+  border: 1px solid #e6eaf2;
+  border-radius: 16px;
+  background: white;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+}
+
+.form-field input {
+  padding: 12px;
+  border: 1px solid #cbd4e4;
+  border-radius: 8px;
+}
+
+.primary-button {
+  padding: 12px;
+  background: #3157cc;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.message {
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.message-error {
+  background: #fff0f0;
+  color: #9a2424;
+}
+
+.message-success {
+  background: #edf9f2;
+  color: #17643e;
+}
