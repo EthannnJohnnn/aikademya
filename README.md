@@ -87,7 +87,7 @@ Administration	ADMIN-01	School Dashboard
 Administration	ADMIN-02	Learning Content Management
 
 
-Current milestone: Project setup, task traceability, and initial frontend scaffolding. Individual feature completion depends on development, testing, review, and (where applicable) backend API integration.
+Current milestone: Implemented frontend scaffolding and backend CRUD are being developed into integrated features. Individual feature completion depends on testing, review, and backend API integration; see the architecture document and linked task evidence.
 8. Technology Stack and Architecture
 Layer	Technology	Responsibility
 Frontend — CSIT 343	React, JavaScript, Vite	User interfaces, forms, navigation, lessons, and dashboards
@@ -98,58 +98,61 @@ Collaboration	GitHub and ClickUp	Source control, task tracking, issues, reviews,
 
 
 The frontend may use mock data during development while Spring Boot endpoints are being implemented. Mock authentication and local demo state are not substitutes for secure production authentication or persistent records.
-9. Getting Started (Frontend)
-Prerequisites
-- A recent Node.js LTS version with npm
-- Git
-- VS Code or another code editor
-Clone the Repository
- git clone https://github.com/EthannnJohnnn/aikademya.git
- cd aikademya
-Install and Run (after the React/Vite scaffold has been committed)
-npm install
+9. Getting Started
+
+The React app is in `frontend/`; Spring Boot is in `backend/`.
+
+```bash
+cd frontend
+npm ci
 npm run dev
-Vite will display a local development URL in the terminal (commonly http://localhost:5173). Open that address in your browser.
-Build the Frontend
-npm run build
-Note: The commands npm install, npm run dev, and npm run build will work only after the React/Vite project files, including package.json, have been added to this repository. During the initial documentation-only phase, the frontend has not yet been initialized.
-Environment Configuration
-Once .env.example is added, create a local .env file using the example variables. The planned frontend API setting is:
-VITE_API_BASE_URL=http://localhost:8080
-Do not commit .env or real API keys, passwords, credentials, or other secrets. Vite variables beginning with VITE_ are exposed in client-side bundles and must never contain secrets.
-10. Planned Repository Structure
+```
+
+For environment setup and frontend commands, see [frontend/README.md](frontend/README.md).
+For backend commands, database isolation during tests, and application boundaries,
+see [docs/architecture.md](docs/architecture.md). Keep local `.env` files and secrets
+out of Git; `VITE_` values are visible in the browser.
+
+10. Repository Structure
+
+```text
 aikademya/
-├── README.md
-├── .gitignore
-├── .env.example
-├── CONTRIBUTING.md
-├── docs/
-│   ├── requirements.md
-│   ├── architecture.md
-│   └── team-roles.md
-├── src/                  # React source files (after Vite setup)
-├── tests/                # Tests and/or test plans
-├── package.json          # Generated during Vite setup
-└── index.html            # Generated during Vite setup
-This is a target structure. Some files and folders may not yet exist and will be added during project setup.
-11. GitHub Collaboration and Development Workflow
-1. Select an assigned ClickUp task and its matching GitHub issue.
-2. Branch from the latest stable main using feature/<issue-number>-<short-name> (or fix/<issue-number>-<short-name> for fixes).
-3. Make a focused change, test it, and commit it with a descriptive message.
-4. Push the feature branch and open a pull request targeting main.
-5. Request a review from another group member, address feedback, and record verification evidence.
-6. Merge only after required review and checks pass; update the ClickUp status and issue.
-Example for the existing AUTH-01 issue:
-git switch main
-git pull origin main
-git switch -c feature/1-login-page
-# Make and save your changes
-git add .
-git commit -m "feat(auth): create login page scaffold"
-git push -u origin feature/1-login-page
-- Existing issue: AUTH-01 – Login Page (#1)
-- Use actual issue numbers assigned by GitHub for other features.
-- Follow the team's rules in CONTRIBUTING.md once that file is added.
+|-- backend/          # Spring Boot application and tests
+|-- frontend/         # React/Vite application and tests
+|-- docs/             # Architecture, responsibilities, contracts and templates
+|-- tests/            # Project-level test plan
+|-- .github/          # Issue and PR templates
+|-- AGENTS.md         # Shared instructions for teammate AI assistants
+|-- CONTRIBUTING.md   # Branch, commit, PR and verification workflow
+`-- README.md
+```
+
+The detailed structure and current implementation boundaries are documented in
+[architecture.md](docs/architecture.md).
+
+11. Team Workflow and Templates
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for the uniform cycle:
+
+Task and acceptance criteria -> focused branch -> coherent commits and checks ->
+pull request -> peer review -> verification -> squash merge -> handoff.
+
+Use `type(scope): imperative summary` for commit messages and PR titles, for
+example `feat(auth): add login form and session verification`. Use the actual
+GitHub issue number in new task branches; all examples in the guides are illustrative.
+
+- [Documentation index and template recommendations](docs/README.md)
+- [PR title and description guide](docs/templates/pull-request.md)
+- [Default PR description template](.github/pull_request_template.md)
+- [AI task brief and handoff](docs/templates/ai-task-and-handoff.md)
+- [Shared AI instructions](AGENTS.md)
+- [API contract template](docs/templates/api-contract.md)
+- [Team responsibilities](docs/team-roles.md)
+
+GitHub templates take effect after reaching the remote default branch. Branch
+protection, merge settings and CI need separate configuration; these documents
+are not evidence those settings are already enabled.
+
 12. Team Members and Proposed Responsibilities
 Member	Section	Proposed Role
 Ethan John Montejo	G3	GitHub & Frontend Lead — repository setup, React foundation, initial login UI
@@ -171,5 +174,5 @@ The ClickUp board tracks the 6 epics and 15 features, along with user stories, p
 - Review curriculum-specific and policy-based instructional content before publication.
 - Do not present training completion as professional accreditation or official DepEd certification without authorization.
 15. Current Development Status
-AIKademya is in initial setup/development. The feature backlog and intended architecture are documented; React implementation, Spring Boot integration, database persistence, dashboard reporting, and certificate verification must be completed and tested before being described as operational.
+AIKademya has a React/Vite frontend with login/account interfaces and a Spring Boot backend with CRUD resources. Secure authentication/account APIs and the integrated learning workflow remain pending. See docs/architecture.md for the current boundaries and each PR for verification evidence. Do not treat implemented CRUD or frontend placeholders as proof that a complete feature is operational.
 Developed by TRes — Cebu Institute of Technology – University
