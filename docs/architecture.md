@@ -111,6 +111,49 @@ Java classes use PascalCase; methods and DTO/JSON properties use camelCase. Foll
 existing explicit table/column mappings, generally snake_case. Preserve established
 endpoint paths and ID field names unless a contract change is agreed and documented.
 
+### Local H2 Console
+
+The AIKademya backend provides a browser-based H2 Console for inspecting the persistent development database. The console is enabled only when the Spring Boot `dev` profile is active.
+
+**Start the backend (Git Bash):**
+
+```bash
+cd backend
+./mvnw "-Dspring-boot.run.profiles=dev" spring-boot:run
+```
+
+**Console URL:** `http://localhost:8080/h2-console`
+
+**Connection settings:**
+
+| Setting | Value |
+|---|---|
+| Driver Class | `org.h2.Driver` |
+| JDBC URL | `jdbc:h2:file:./data/aikademya` |
+| Username | `sa` |
+| Password | Empty (local development only) |
+
+The H2 database path is relative to the working directory. Start Maven from `backend/` to access the expected database.
+
+**Security notes:**
+- The H2 Console is disabled by default.
+- The `dev` profile binds the server to `127.0.0.1`.
+- Remote H2 Console connections are disabled.
+- Never expose the development console publicly.
+- Do not commit local H2 database files.
+- Use an isolated in-memory H2 database for automated tests.
+
+**Example inspection query:**
+
+```sql
+SELECT TABLE_NAME
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA = 'PUBLIC'
+ORDER BY TABLE_NAME;
+```
+
+This lists the available database tables without modifying their contents.
+
 ## IDs and relationship conventions
 
 | Entity group | Current Java ID type |
